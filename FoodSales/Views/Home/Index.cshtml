@@ -1,31 +1,124 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Детализация расходов";
+    Layout = null;
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+<!DOCTYPE html>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/Site.css" rel="stylesheet">
+    <link href="~/Content/jquery-ui.css" rel="stylesheet">
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/datepicker-ru.js"></script>
+</head>
+<body>
+    <div class="container">
+        @*<div class="page-header">
+            <h1>@ViewBag.Title</h1>
+        </div>*@
+        <div class="page-header">
+            <h2>@ViewBag.FIO @(new HtmlString(ViewBag.card))</h2>
+        </div>
+        <div class="well well-sm">@ViewBag.CardStatus</div>
+        <div class="alert alert-warning" style="@ViewBag.AlertStyle">
+            @ViewBag.AlertMessage
+        </div>
+        <form class="form-inline form-group-lg" action="/Home/Index" method="post">
+            <div class="row">
+                <div class="form-group col-xs-7">
+                    <label>С<input type="text" id="userDate1" name="userDate1" class="form-control" value="@ViewBag.date1" /></label>
+                    <label>По <input type="text" id="userDate2" name="userDate2" class="form-control" value="@ViewBag.date2" /></label>
+                    <input type="submit" class="btn btn-primary" value="Обновить" />
+                </div>
+            </div>
+        </form>
+        <div class="well well-sm">Данные актуальны на <strong>@ViewBag.dateAct</strong> </div>
+        <div>
+            <table id="example" class="table table-hover table-money table-condensed">
+                <thead>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Время</th>
+                        <th></th>
+                        <th>Сумма</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                    if (ViewBag.sales != null)
+                    {
+                        foreach (var s in ViewBag.sales)
+                        {
+                            <tr>
+                                <td>@s.Period.ToShortDateString()</td>
+                                @*<td>@s.CardID</td>*@
+                                <td>@s.Period.TimeOfDay</td>
+                                <td></td>
+                                <td>@s.Summa</td>
+                            </tr>
+                    }
+                }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="2" rowspan="2"></th>
+                        <th><strong>Итог:</strong></th>
+                        <th>@ViewBag.salesSum</th>
+                    </tr>
+                    <tr class="rest-color">
+                        <th><strong>Остаток:</strong></th>
+                        <th>@ViewBag.moneyRest</th>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="alert alert-info" style="@ViewBag.infoStyle">
+                @ViewBag.Infomessage
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+</body>
+<!-- Скрипт для инициализации элемента на странице, имеющего идентификатор tooltip -->
+<script>
+    // после загрузки страницы
+    $(function () {
+        // инициализировать элемент, имеющий идентификатор tooltip, как компонент tooltip
+        $('#tooltip').tooltip();
+    });
+</script>
+<script>
+    $(function () {
+        $('#userDate1').datepicker($.extend({
+            //inline: true,
+            changeYear: true,
+            changeMonth: true,
+        },
+            $.datepicker.regional['ru']
+        ));
+    });
+</script>
+
+<script>
+    $(function () {
+        $('#userDate2').datepicker($.extend({
+            //inline: true,
+            changeYear: true,
+            changeMonth: true,
+        },
+            $.datepicker.regional['ru']
+        ));
+    });
+</script>
+
+
+
+
+
+</html>

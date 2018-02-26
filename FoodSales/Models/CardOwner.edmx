@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="foodsalesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'foodsales.dbo.CardOwners' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CardOwners">
+          <Key>
+            <PropertyRef Name="PersonID" />
+            <PropertyRef Name="CardStatus" />
+            <PropertyRef Name="CardID" />
+          </Key>
+          <Property Name="PersonID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CardID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CardStatus" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'foodsales.dbo.Sales' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Sales">
+          <Key>
+            <PropertyRef Name="Period" />
+            <PropertyRef Name="CardID" />
+            <PropertyRef Name="Summa" />
+          </Key>
+          <Property Name="Period" Type="datetime" Nullable="false" />
+          <Property Name="CardID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Summa" Type="decimal" Precision="15" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="foodsalesModelStoreContainer">
+          <EntitySet Name="CardOwners" EntityType="Self.CardOwners" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CardOwners].[PersonID] AS [PersonID], 
+    [CardOwners].[CardID] AS [CardID], 
+    [CardOwners].[CardStatus] AS [CardStatus]
+    FROM [dbo].[CardOwners] AS [CardOwners]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Sales" EntityType="Self.Sales" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Sales].[Period] AS [Period], 
+    [Sales].[CardID] AS [CardID], 
+    [Sales].[Summa] AS [Summa]
+    FROM [dbo].[Sales] AS [Sales]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="foodsalesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CardOwner">
+          <Key>
+            <PropertyRef Name="PersonID" />
+            <PropertyRef Name="CardID" />
+            <PropertyRef Name="CardStatus" />
+          </Key>
+          <Property Name="PersonID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CardID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CardStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Sale">
+          <Key>
+            <PropertyRef Name="Period" />
+            <PropertyRef Name="CardID" />
+            <PropertyRef Name="Summa" />
+          </Key>
+          <Property Name="Period" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CardID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Summa" Type="Decimal" Precision="15" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="foodsalesEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CardOwners" EntityType="Self.CardOwner" />
+          <EntitySet Name="Sales" EntityType="Self.Sale" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="foodsalesModelStoreContainer" CdmEntityContainer="foodsalesEntities">
+          <EntitySetMapping Name="CardOwners">
+            <EntityTypeMapping TypeName="foodsalesModel.CardOwner">
+              <MappingFragment StoreEntitySet="CardOwners">
+                <ScalarProperty Name="CardStatus" ColumnName="CardStatus" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="CardID" ColumnName="CardID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sales">
+            <EntityTypeMapping TypeName="foodsalesModel.Sale">
+              <MappingFragment StoreEntitySet="Sales">
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="CardID" ColumnName="CardID" />
+                <ScalarProperty Name="Summa" ColumnName="Summa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
